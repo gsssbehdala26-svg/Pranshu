@@ -36,8 +36,8 @@ def load_local_environment():
 
 
 def ai_config():
-    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
-    model = os.environ.get("OPENAI_MODEL", DEFAULT_MODEL).strip()
+    api_key = os.environ.get("AQ.Ab8RN6JwyHNXGzgyHii_YY2MLWp8pBmBzjn0MGM2Ebf0o9esww", "").strip()
+    model = os.environ.get("gemini-4-argon", DEFAULT_MODEL).strip()
     configured = bool(api_key) and not api_key.lower().startswith("your_")
     return api_key, model, configured
 
