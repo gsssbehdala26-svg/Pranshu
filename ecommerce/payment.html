@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183b4e">
+  <title>Secure payment — FORME Market</title>
+  <style>
+    :root { color-scheme: light; font-family: "Segoe UI", sans-serif; color: #172c38; background: #edf2f3; font-synthesis: none; text-rendering: optimizeLegibility; --ink: #172c38; --muted: #637078; --line: #d8e0e4; --teal: #183b4e; --gold: #f1b35c; }
+    * { box-sizing: border-box; }
+    body { min-width: 320px; margin: 0; }
+    a { color: inherit; }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 3px solid #8caab5; outline-offset: 3px; }
+    .topbar { display: flex; min-height: 68px; align-items: center; justify-content: space-between; padding: 0 max(24px, calc((100vw - 1080px) / 2)); background: var(--teal); color: white; }
+    .brand { font-size: 19px; font-weight: 750; letter-spacing: .02em; text-decoration: none; }
+    .secure-label { color: #d7e6e9; font-size: 11px; }
+    main { width: min(100% - 36px, 1020px); margin: 44px auto; }
+    .intro { margin-bottom: 25px; }
+    .eyebrow { margin: 0 0 8px; color: #50717c; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    h1 { margin: 0; font-size: clamp(29px, 5vw, 40px); letter-spacing: -.03em; }
+    .intro p:last-child { margin: 9px 0 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+    .layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr); gap: 20px; align-items: start; }
+    .panel { border: 1px solid var(--line); border-radius: 5px; background: white; }
+    .pay-panel { padding: clamp(22px, 4vw, 34px); }
+    .pay-panel h2, .summary h2 { margin: 0; font-size: 17px; }
+    .payment-choice { display: flex; align-items: center; gap: 15px; margin: 22px 0; padding: 17px; border: 1px solid #b9cbd0; border-radius: 4px; background: #f4f8f8; }
+    .upi-mark { display: grid; width: 43px; height: 43px; flex: 0 0 43px; place-items: center; border-radius: 50%; background: #dcebee; color: var(--teal); font-size: 12px; font-weight: 800; }
+    .payment-choice strong { display: block; font-size: 13px; }
+    .payment-choice small { display: block; margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.5; }
+    .notice { margin: 17px 0; padding: 12px 14px; border-left: 3px solid #6e8d98; background: #eff5f6; color: #36545f; font-size: 12px; line-height: 1.55; }
+    .notice.error { border-color: #b9574c; background: #fbf0ee; color: #77352e; }
+    .notice.success { border-color: #4f7b59; background: #eef6ef; color: #30593a; }
+    .pay-button { display: flex; width: 100%; min-height: 48px; align-items: center; justify-content: center; gap: 9px; border: 1px solid var(--gold); border-radius: 24px; background: var(--gold); color: var(--ink); cursor: pointer; font-size: 12px; font-weight: 750; }
+    .pay-button:hover:not(:disabled) { border-color: #e5a340; background: #e5a340; }
+    .pay-button:disabled { cursor: not-allowed; opacity: .55; }
+    .back-link { display: inline-block; margin-top: 17px; color: #365c6c; font-size: 12px; }
+    .summary { padding: 23px; }
+    .summary-items { margin: 14px 0; border-bottom: 1px solid var(--line); }
+    .summary-item, .summary-row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; font-size: 12px; }
+    .summary-item span:first-child, .summary-row span:first-child { color: var(--muted); }
+    .summary-row.total { border-top: 1px solid var(--line); font-size: 14px; font-weight: 750; }
+    .ship-to { margin-top: 19px; padding-top: 15px; border-top: 1px solid var(--line); }
+    .ship-to h3 { margin: 0 0 7px; font-size: 11px; }
+    .ship-to p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.65; overflow-wrap: anywhere; }
+    .empty-order { padding: 16px 0; color: var(--muted); font-size: 12px; }
+    @media (max-width: 700px) { .topbar { min-height: 60px; padding: 0 18px; } main { margin: 29px auto; } .layout { grid-template-columns: 1fr; } .summary { order: -1; } }
+  </style>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="form_ecommerce.HTML">FORME MARKET</a>
+    <span class="secure-label">Secure payment · INR</span>
+  </header>
+  <main>
+    <div class="intro">
+      <p class="eyebrow">Your order, one step away</p>
+      <h1>Choose how to pay.</h1>
+      <p>Complete payment securely with Razorpay. UPI is selected when available; other enabled payment methods remain available in Checkout.</p>
+    </div>
+    <div class="layout">
+      <section class="panel pay-panel" aria-labelledby="payment-heading">
+        <h2 id="payment-heading">Payment method</h2>
+        <div class="payment-choice">
+          <span class="upi-mark" aria-hidden="true">UPI</span>
+          <span><strong>UPI with Razorpay</strong><small>Use a UPI app or enter your UPI ID in the secure Razorpay window.</small></span>
+        </div>
+        <div class="notice" id="payment-message" role="status" aria-live="polite">Checking payment setup…</div>
+        <button class="pay-button" id="pay-button" type="button" disabled>PAY SECURELY WITH RAZORPAY <span aria-hidden="true">→</span></button>
+        <a class="back-link" href="form_ecommerce.HTML">← Return to the marketplace</a>
+      </section>
+      <aside class="panel summary" aria-labelledby="summary-heading">
+        <h2 id="summary-heading">Order summary</h2>
+        <div class="summary-items" id="summary-items"><p class="empty-order">Loading your items…</p></div>
+        <div class="summary-row"><span>Subtotal</span><strong id="subtotal">—</strong></div>
+        <div class="summary-row"><span id="delivery-label">Delivery</span><strong id="delivery-price">—</strong></div>
+        <div class="summary-row total"><span>Total</span><strong id="total">—</strong></div>
+        <div class="ship-to"><h3>Delivering to</h3><p id="delivery-address">—</p></div>
+      </aside>
+    </div>
+  </main>
+  <script>
+    const catalog = {
+      "linen-throw": { name: "Everyday Linen Throw", price: 88 },
+      "ceramic-vase": { name: "Form No. 2 Vase", price: 54 },
+      "weekend-tote": { name: "The Weekend Tote", price: 68 },
+      "stoneware-cup": { name: "Morning Stoneware Cup", price: 32 },
+      "market-basket": { name: "Sunday Market Basket", price: 74 },
+      "table-lamp": { name: "Soft Light Table Lamp", price: 126 },
+      "face-oil": { name: "Daily Ritual Face Oil", price: 46 },
+      "linen-napkins": { name: "Linen Table Napkins", price: 38 }
+    };
+    const formatPrice = (value) => new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", maximumFractionDigits: 0 }).format(value);
+    const message = document.querySelector("#payment-message");
+    const payButton = document.querySelector("#pay-button");
+    let pendingOrder;
+    let pendingPaymentResponse;
+
+    function showMessage(text, type = "") {
+      message.textContent = text;
+      message.className = `notice${type ? ` ${type}` : ""}`;
+    }
+
+    function renderOrder(order) {
+      const list = document.querySelector("#summary-items");
+      list.replaceChildren();
+      let subtotal = 0;
+      for (const item of order.items) {
+        const product = catalog[item.id];
+        if (!product || !Number.isInteger(item.quantity) || item.quantity < 1) continue;
+        subtotal += product.price * item.quantity;
+        const row = document.createElement("div");
+        row.className = "summary-item";
+        const name = document.createElement("span");
+        name.textContent = `${product.name} · ${item.quantity}`;
+        const price = document.createElement("strong");
+        price.textContent = formatPrice(product.price * item.quantity);
+        row.append(name, price);
+        list.append(row);
+      }
+      if (!list.children.length) {
+        list.innerHTML = '<p class="empty-order">No valid items were found in your order.</p>';
+        payButton.disabled = true;
+        return;
+      }
+      const shipping = order.delivery === "express" ? 15 : subtotal >= 100 ? 0 : 8;
+      document.querySelector("#subtotal").textContent = formatPrice(subtotal);
+      document.querySelector("#delivery-label").textContent = `${order.delivery === "express" ? "Express" : "Standard"} delivery`;
+      document.querySelector("#delivery-price").textContent = shipping ? formatPrice(shipping) : "Free";
+      document.querySelector("#total").textContent = formatPrice(subtotal + shipping);
+      const customer = order.customer || {};
+      document.querySelector("#delivery-address").textContent = [customer.firstName, customer.lastName, customer.address, customer.city, customer.postal].filter(Boolean).join(", ") || "Delivery details unavailable";
+    }
+
+    async function verifyPayment(result) {
+      payButton.disabled = true;
+      payButton.textContent = "VERIFYING PAYMENT…";
+      showMessage("Verifying your payment securely…");
+      try {
+        const verification = await fetch("/api/verify-payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(result)
+        });
+        const status = await verification.json();
+        if (!verification.ok) throw new Error(status.error || "Payment verification failed.");
+        if (status.captured) {
+          localStorage.removeItem("forme-cart");
+          sessionStorage.removeItem("forme-pending-order");
+          pendingOrder = null;
+          pendingPaymentResponse = null;
+          showMessage("Payment captured and verified. Your order is confirmed.", "success");
+          payButton.textContent = "PAYMENT CONFIRMED";
+        } else {
+          showMessage("Payment was authorised but is not captured yet. The order is not confirmed; check payment capture settings in Razorpay.", "error");
+          payButton.textContent = "PAYMENT AWAITING CAPTURE";
+        }
+      } catch (error) {
+        showMessage(error.message, "error");
+        payButton.disabled = false;
+        payButton.textContent = "RETRY PAYMENT VERIFICATION";
+      }
+    }
+
+    async function beginPayment() {
+      if (!pendingOrder) return;
+      if (pendingPaymentResponse) {
+        await verifyPayment(pendingPaymentResponse);
+        return;
+      }
+      if (payButton.disabled) return;
+      payButton.disabled = true;
+      payButton.textContent = "PREPARING SECURE CHECKOUT…";
+      showMessage("Creating a secure Razorpay order…");
+      try {
+        const response = await fetch("/api/create-order", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(pendingOrder)
+        });
+        const order = await response.json();
+        if (!response.ok) throw new Error(order.error || "Could not create the payment order.");
+        if (typeof Razorpay !== "function") throw new Error("Razorpay Checkout could not be loaded. Check your internet connection and retry.");
+
+        let paymentResponseReceived = false;
+        const checkout = new Razorpay({
+          key: order.keyId,
+          amount: order.amount,
+          currency: order.currency,
+          name: "FORME Market",
+          description: "Marketplace order",
+          order_id: order.orderId,
+          method: "upi",
+          prefill: {
+            name: `${pendingOrder.customer.firstName} ${pendingOrder.customer.lastName}`,
+            email: pendingOrder.customer.email,
+            contact: pendingOrder.customer.phone
+          },
+          theme: { color: "#183b4e" },
+          modal: {
+            ondismiss: () => {
+              if (!paymentResponseReceived && pendingOrder) {
+                payButton.disabled = false;
+                payButton.textContent = "RETRY WITH RAZORPAY";
+                showMessage("Checkout was closed. Your order is still ready when you are.");
+              }
+            }
+          },
+          handler: async (result) => {
+            paymentResponseReceived = true;
+            pendingPaymentResponse = result;
+            await verifyPayment(result);
+          }
+        });
+        checkout.on("payment.failed", (event) => {
+          showMessage(event.error?.description || "Payment could not be completed. You can retry securely.", "error");
+          payButton.disabled = false;
+          payButton.textContent = "RETRY WITH RAZORPAY";
+        });
+        checkout.open();
+        payButton.textContent = "RAZORPAY CHECKOUT OPEN";
+      } catch (error) {
+        showMessage(error.message, "error");
+        payButton.disabled = false;
+        payButton.textContent = "RETRY SECURE PAYMENT";
+      }
+    }
+
+    try {
+      pendingOrder = JSON.parse(sessionStorage.getItem("forme-pending-order") || "null");
+    } catch {
+      pendingOrder = null;
+    }
+    if (!pendingOrder || !Array.isArray(pendingOrder.items) || !pendingOrder.customer) {
+      showMessage("No checkout details were found. Return to the marketplace and start checkout again.", "error");
+      document.querySelector("#summary-items").innerHTML = '<p class="empty-order">No active order.</p>';
+    } else {
+      renderOrder(pendingOrder);
+      fetch("/api/config").then((response) => response.json()).then((config) => {
+        if (!config.configured) {
+          showMessage(config.message, "error");
+          return;
+        }
+        showMessage("Secure checkout is ready. UPI is selected when enabled for this account.");
+        payButton.disabled = false;
+      }).catch(() => showMessage("Start the local server with python server.py, then open the marketplace at http://localhost:4173.", "error"));
+    }
+    payButton.addEventListener("click", beginPayment);
+  </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f2">
+  <title>Our Story — FORME</title>
+  <style>
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #20221e;
+      background: #f7f6f2;
+      --green: #405b45;
+      --line: #e5e4dc;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    .announcement { padding: 10px 16px; background: var(--green); color: white; text-align: center; font-size: 11px; letter-spacing: .12em; }
+    header { display: flex; min-height: 76px; justify-content: space-between; align-items: center; padding: 0 clamp(20px, 6vw, 88px); border-bottom: 1px solid rgb(32 34 30 / 8%); }
+    .brand { font-family: var(--serif); font-size: 31px; font-weight: 700; letter-spacing: .16em; }
+    nav { display: flex; align-items: center; gap: 25px; }
+    nav a { font-size: 12px; }
+    nav a:hover { color: var(--green); }
+    .hero { display: grid; min-height: 520px; grid-template-columns: 1fr 1fr; background: #e7e8df; }
+    .hero-copy { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; padding: 65px clamp(28px, 9vw, 130px); }
+    .eyebrow { margin: 0 0 18px; color: var(--green); font-size: 10px; letter-spacing: .19em; text-transform: uppercase; }
+    h1, h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.04em; }
+    h1 { max-width: 520px; margin: 0; font-size: clamp(50px, 6vw, 78px); line-height: .99; }
+    .hero-copy > p:not(.eyebrow) { max-width: 365px; margin: 23px 0 28px; color: #60625b; font-size: 14px; line-height: 1.8; }
+    .hero-image { min-height: 350px; background: #b8b9a9 url("https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1500&q=85") center / cover; }
+    .button { display: inline-flex; min-height: 47px; justify-content: center; align-items: center; gap: 12px; padding: 0 22px; border: 1px solid #20221e; background: #20221e; color: white; font-size: 11px; letter-spacing: .08em; }
+    .button:hover { border-color: var(--green); background: var(--green); }
+    .values { display: grid; grid-template-columns: repeat(3, 1fr); gap: 35px; padding: 85px clamp(22px, 9vw, 130px); }
+    .values article { padding-top: 18px; border-top: 1px solid var(--line); }
+    .values h2 { margin: 0 0 12px; font-size: 27px; }
+    .values p, .closing p { color: #666960; font-size: 13px; line-height: 1.8; }
+    .closing { padding: 55px 20px 75px; background: #efeee8; text-align: center; }
+    .closing h2 { margin: 0; font-size: clamp(38px, 5vw, 58px); }
+    .closing p { max-width: 510px; margin: 16px auto 24px; }
+    footer { display: flex; justify-content: space-between; gap: 20px; padding: 25px clamp(22px, 7vw, 100px); background: #252923; color: #f7f6f2; font-size: 11px; }
+    footer span:last-child { color: #c3c4bb; }
+    a:focus-visible { outline: 3px solid #a3b79e; outline-offset: 3px; }
+    @media (max-width: 650px) {
+      header { min-height: 65px; padding: 0 17px; }
+      .brand { font-size: 25px; }
+      nav { gap: 13px; }
+      nav a { font-size: 11px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-copy { min-height: 380px; padding: 50px 26px; }
+      .hero-image { min-height: 300px; }
+      .values { grid-template-columns: 1fr; gap: 24px; padding: 58px 25px; }
+      footer { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement">COMPLIMENTARY SHIPPING ON ORDERS OVER ₹100 &nbsp;·&nbsp; MADE FOR THE EVERYDAY</div>
+  <header>
+    <a class="brand" href="html%20-%20Copy.HTML" aria-label="FORME home">FORME</a>
+    <nav aria-label="Main navigation">
+      <a href="html%20-%20Copy.HTML#shop">Shop all</a>
+      <a href="html%20-%20Copy.HTML">Home</a>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">A little about us</p>
+        <h1>Good things, chosen with care.</h1>
+        <p>FORME began with a simple thought: the things we live with every day deserve a little more thought.</p>
+        <a class="button" href="html%20-%20Copy.HTML#shop">FIND YOUR EVERYDAY PIECES <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="hero-image" role="img" aria-label="Warm natural textures in a thoughtfully designed home"></div>
+    </section>
+    <section class="values" aria-label="What we believe">
+      <article>
+        <p class="eyebrow">01 · Materials</p>
+        <h2>Honest by nature.</h2>
+        <p>We look for natural materials, considered sourcing, and makers who care about how a thing is made as much as how it looks.</p>
+      </article>
+      <article>
+        <p class="eyebrow">02 · Design</p>
+        <h2>Less, but lovely.</h2>
+        <p>Nothing extra for the sake of it. Just useful, beautiful pieces that feel right at home and earn their place over time.</p>
+      </article>
+      <article>
+        <p class="eyebrow">03 · Everyday</p>
+        <h2>Made to be lived in.</h2>
+        <p>The best things are part of your everyday rituals. We choose pieces to be used, loved, and kept close for years to come.</p>
+      </article>
+    </section>
+    <section class="closing">
+      <p class="eyebrow">Make room for the good things</p>
+      <h2>Everyday, elevated.</h2>
+      <p>Explore thoughtful homewares and daily essentials selected to make the everyday feel a little more special.</p>
+      <a class="button" href="html%20-%20Copy.HTML#shop">SHOP THE COLLECTION <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+  <footer><span>© <span id="year"></span> FORME. Made for the everyday.</span><span><a href="html%20-%20Copy.HTML">Back to the storefront ↑</a></span></footer>
+  <script>document.querySelector("#year").textContent = new Date().getFullYear();</script>
+</body>
+</html>
