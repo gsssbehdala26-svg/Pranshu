@@ -1,0 +1,129 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wi-Fi Password Safety Check</title>
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: system-ui, sans-serif;
+      background: #f3f6fb;
+      color: #172033;
+    }
+
+    body {
+      box-sizing: border-box;
+      display: grid;
+      min-height: 100vh;
+      margin: 0;
+      padding: 24px;
+      place-items: center;
+    }
+
+    main {
+      width: min(100%, 560px);
+      padding: 32px;
+      border: 1px solid #dce3ee;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 12px 36px rgb(23 32 51 / 8%);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 1.7rem;
+    }
+
+    p {
+      line-height: 1.55;
+    }
+
+    label {
+      display: block;
+      margin: 24px 0 8px;
+      font-weight: 650;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #9aa8bb;
+      border-radius: 8px;
+      font: inherit;
+    }
+
+    input:focus {
+      outline: 3px solid #b9d7ff;
+      border-color: #2563eb;
+    }
+
+    #result {
+      min-height: 1.5em;
+      margin-top: 16px;
+      font-weight: 700;
+    }
+
+    ul {
+      padding-left: 22px;
+      line-height: 1.7;
+    }
+
+    .note {
+      padding: 12px;
+      border-radius: 8px;
+      background: #f3f6fb;
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Wi-Fi Password Safety Check</h1>
+    <p>Check whether a password you choose for your own router meets basic strength guidelines. The check runs only in this browser; the password is not sent or saved.</p>
+
+    <label for="password">Enter a password to check</label>
+    <input id="password" type="password" autocomplete="new-password" spellcheck="false">
+    <p id="result" aria-live="polite">Enter a password to see the check.</p>
+
+    <h2>Secure your router</h2>
+    <ul>
+      <li>Use WPA3-Personal, or WPA2-AES if WPA3 is unavailable.</li>
+      <li>Choose a unique passphrase of at least 16 characters.</li>
+      <li>Change the router’s admin password and keep its firmware updated.</li>
+      <li>Disable WPS if you do not need it.</li>
+    </ul>
+    <p class="note">This is a basic guideline check, not a guarantee that a password is secure. Avoid entering a password currently in use if you do not want it visible on this screen.</p>
+  </main>
+
+  <script>
+    const passwordInput = document.querySelector("#password");
+    const result = document.querySelector("#result");
+
+    passwordInput.addEventListener("input", () => {
+      const password = passwordInput.value;
+
+      if (!password) {
+        result.textContent = "Enter a password to see the check.";
+        return;
+      }
+
+      const checks = [
+        password.length >= 16,
+        /[a-z]/.test(password) && /[A-Z]/.test(password),
+        /\d/.test(password),
+        /[^A-Za-z0-9]/.test(password),
+        !/(.)\1{3,}/.test(password)
+      ];
+      const passed = checks.filter(Boolean).length;
+
+      if (passed === checks.length) {
+        result.textContent = "Good baseline: this meets the listed strength checks.";
+      } else {
+        result.textContent = `Needs improvement: ${passed} of ${checks.length} checks passed. Use at least 16 characters, mix character types, and avoid long repeated characters.`;
+      }
+    });
+  </script>
+</body>
+</html>

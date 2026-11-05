@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harshit Dhiman Pro Coder | Harshit Dhiman Pro Coder | Gaming Hub</title>
+<style>
+:root{--bg:#050d1a;--panel:#0b1729;--line:#1b3150;--purple:#6844ff;--text:#f4f6ff;--muted:#aab8d8}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(circle at 80% 0%,#11133a 0,transparent 30%),var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 4%;border-bottom:1px solid var(--line);background:#06101eee;position:sticky;top:0;z-index:5}
+.logo{font-size:25px;font-weight:900;white-space:nowrap}.logo span{color:var(--purple)}
+nav{display:flex;gap:24px;color:#d7def2;font-size:14px}nav a:hover{color:#9b88ff}
+.header-actions{display:flex;align-items:center;gap:10px}
+.search{width:min(230px,22vw);background:#14213a;border:1px solid #253657;color:white;border-radius:10px;padding:11px 13px;outline:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--purple);border-radius:10px;padding:11px 17px;background:var(--purple);color:#fff;font-weight:700;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.15)}
+.btn.ghost{background:transparent}
+.hero{min-height:330px;display:flex;align-items:center;padding:45px 5%;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#030b16 0%,#061020ed 35%,#07102088 68%,#030815dd 100%),url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1800&q=85') center/cover}
+.hero-content{max-width:600px}.eyebrow{color:#b9b2ff;letter-spacing:4px;font-size:12px;font-weight:bold}
+h1{font-size:clamp(34px,5vw,55px);line-height:1.08;margin:15px 0}.gradient{color:#8868ff}
+.hero p{color:#d3dbee;line-height:1.65;max-width:480px;margin-bottom:24px}
+main{padding:22px 4% 35px}
+.categories{display:grid;grid-template-columns:repeat(8,1fr);gap:12px;margin-bottom:28px}
+.category{background:linear-gradient(145deg,#0d1c31,#091323);border:1px solid var(--line);border-radius:12px;padding:16px 8px;text-align:center;color:#dce5ff;font-size:13px;cursor:pointer}
+.category:hover,.category.active{border-color:#7457ff;background:#17183d}
+.category b{display:block;font-size:23px;margin-bottom:6px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;margin:25px 0 15px}
+.section-heading h2{font-size:21px;margin:0}.section-heading a{color:#8f79ff;font-size:13px}
+.games{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.game-card{background:linear-gradient(160deg,#0d1b30,#081220);border:1px solid #203756;border-radius:12px;overflow:hidden;min-width:0;transition:transform .2s,border-color .2s}
+.game-card:hover{transform:translateY(-4px);border-color:#765aff}
+.game-art{height:145px;background:#14223b;overflow:hidden}
+.game-art img{width:100%;height:100%;object-fit:cover;display:block}
+.game-info{padding:12px}
+.game-info h3{font-size:15px;margin:0 0 9px}
+.tags{color:#9fb3dd;font-size:12px;display:flex;flex-wrap:wrap;gap:8px;min-height:30px}
+.play{width:100%;margin-top:10px;padding:10px;font-size:13px}
+.lower{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:24px}
+.panel{border:1px solid var(--line);border-radius:13px;background:linear-gradient(145deg,#0c192b,#081221);padding:18px}
+.panel h2{margin:0 0 14px;font-size:20px}
+.top-row{display:grid;grid-template-columns:60px 1fr auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid #182c46;font-size:13px}
+.top-row:last-child{border-bottom:0}.top-row img{width:60px;height:42px;object-fit:cover;border-radius:7px}.rating{color:#ffd05b;white-space:nowrap}
+.community{background:radial-gradient(circle at 85% 35%,#352078 0,transparent 40%),linear-gradient(135deg,#111b40,#0c1028)}
+.community p{color:#c2cde8;line-height:1.6}
+.perks{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.perk{text-align:center;background:#151b3a;border-radius:8px;padding:13px 5px;font-size:12px;color:#d9e1ff}
+footer{border-top:1px solid var(--line);padding:22px 4%;display:flex;justify-content:space-between;align-items:center;gap:15px;color:#aab8d8;font-size:12px}
+footer nav{font-size:12px;gap:18px}
+.empty{display:none;color:var(--muted);padding:24px 0}
+@media(max-width:1000px){nav{gap:12px}.categories{grid-template-columns:repeat(4,1fr)}.games{grid-template-columns:repeat(3,minmax(0,1fr))}.game-art{height:160px}}
+@media(max-width:680px){header{flex-wrap:wrap;padding:14px 5%}.logo{font-size:22px}nav{order:3;width:100%;overflow:auto;padding:4px 0}.header-actions{margin-left:auto}.search{width:130px}.header-actions .ghost{display:none}.hero{padding:38px 6%;min-height:330px}.hero p{font-size:14px}main{padding:18px 5%}.categories{grid-template-columns:repeat(2,1fr);gap:8px}.games{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.game-art{height:125px}.game-info{padding:10px}.game-info h3{font-size:13px}.lower{grid-template-columns:1fr}.perks{grid-template-columns:repeat(3,1fr)}footer{flex-wrap:wrap}footer nav{order:3;width:100%;flex-wrap:wrap}}
+@media(max-width:380px){.games{grid-template-columns:1fr}.game-art{height:180px}.search{width:110px}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#">🎮 <span>Harshit Dhiman</span> Pro Coder</a>
+  <nav aria-label="Main navigation">
+    <a href="#home">Home</a><a href="#games">Games</a><a href="#categories">Categories</a><a href="#community">Community</a>
+  </nav>
+  <div class="header-actions">
+    <input id="search" class="search" type="search" placeholder="⌕  Search games..." aria-label="Search games">
+    <button class="btn ghost" onclick="showNotice('Login feature can be connected to a backend later.')">Login</button>
+    <button class="btn" onclick="showNotice('Welcome! Sign-up can be connected to a backend later.')">Sign Up</button>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="eyebrow">PLAY · EXPLORE · WIN</div>
+    <h1>Your Ultimate<br><span class="gradient">Gaming</span> Destination</h1>
+    <p>Discover amazing games, explore new worlds, and find your next favorite adventure. Your gaming journey starts here.</p>
+    <a class="btn" href="#games">🎮 &nbsp; Browse Games &nbsp; →</a>
+  </div>
+</section>
+
+<main>
+  <section class="categories" id="categories" aria-label="Game categories">
+    <button class="category active" data-category="All"><b>🎮</b>All Games</button>
+    <button class="category" data-category="Action"><b>⚔️</b>Action</button>
+    <button class="category" data-category="Shooter"><b>🎯</b>Shooter</button>
+    <button class="category" data-category="RPG"><b>🗡️</b>RPG</button>
+    <button class="category" data-category="Racing"><b>🏎️</b>Racing</button>
+    <button class="category" data-category="Puzzle"><b>🧩</b>Puzzle</button>
+    <button class="category" data-category="Strategy"><b>♟️</b>Strategy</button>
+    <button class="category" data-category="Adventure"><b>🌍</b>Adventure</button>
+  </section>
+
+  <div class="section-heading" id="games"><h2>🎮 Featured Games</h2><a href="#games" onclick="resetFilters()">View All →</a></div>
+  <section class="games" id="gameGrid">
+    <article class="game-card" data-name="Grand Theft Auto V" data-tags="Action Adventure Open World">
+      <div class="game-art"><img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=700&q=80" alt="Colorful gaming setup"></div>
+      <div class="game-info"><h3>Grand Theft Auto V</h3><div class="tags"><span>Action</span><span>Adventure</span><span>Open World</span></div><button class="btn play" onclick="playGame('Grand Theft Auto V')">Play Now</button></div>
+    </article>
+    <article class="game-card" data-name="Minecraft" data-tags="Sandbox Adventure Survival">
+      <div class="game-art"><img src="https://images.unsplash.com/photo-1607513746994-51f730a44832?auto=format&fit=crop&w=700&q=80" alt="Blocky pixel-art landscape"></div>
+      <div class="game-info"><h3>Minecraft</h3><div class="tags"><span>Sandbox</span><span>Adventure</span><span>Survival</span></div><button class="btn play" onclick="playGame('Minecraft')">Play Now</button></div>
+    </article>
+    <article class="game-card" data-name="Fortnite" data-tags="Battle Royale Shooter Action">
+      <div class="game-art"><img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=700&q=80" alt="Esports arena"></div>
+      <div class="game-info"><h3>Fortnite</h3><div class="tags"><span>Battle Royale</span><span>Shooter</span><span>Action</span></div><button class="btn play" onclick="playGame('Fortnite')">Play Now</button></div>
+    </article>
+    <article class="game-card" data-name="Valorant" data-tags="FPS Shooter Tactical">
+      <div class="game-art"><img src="https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=700&q=80" alt="Gaming computer with neon lights"></div>
+      <div class="game-info"><h3>Valorant</h3><div class="tags"><span>FPS</span><span>Shooter</span><span>Tactical</span></div><button class="btn play" onclick="playGame('Valorant')">Play Now</button></div>
+    </article>
+    <article class="game-card" data-name="Genshin Impact" data-tags="RPG Adventure Open World">
+      <div class="game-art"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=700&q=80" alt="Fantasy landscape"></div>
+      <div class="game-info"><h3>Genshin Impact</h3><div class="tags"><span>RPG</span><span>Adventure</span><span>Open World</span></div><button class="btn play" onclick="playGame('Genshin Impact')">Play Now</button></div>
+    </article>
+  </section>
+  <p class="empty" id="empty">No games match your search. Try another title or category.</p>
+
+  <section class="lower">
+    <div class="panel">
+      <h2>⭐ Top Rated Games</h2>
+      <div class="top-row"><img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=150&q=75" alt=""><span>1. &nbsp; Elden Ring<br><small>RPG · Action</small></span><span class="rating">★ 4.9</span></div>
+      <div class="top-row"><img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=150&q=75" alt=""><span>2. &nbsp; Red Dead Redemption 2<br><small>Action · Adventure</small></span><span class="rating">★ 4.8</span></div>
+      <div class="top-row"><img src="https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=150&q=75" alt=""><span>3. &nbsp; The Witcher 3<br><small>RPG · Adventure</small></span><span class="rating">★ 4.8</span></div>
+      <div class="top-row"><img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=150&q=75" alt=""><span>4. &nbsp; God of War<br><small>Action · Adventure</small></span><span class="rating">★ 4.7</span></div>
+    </div>
+    <div class="panel community" id="community">
+      <h2>Join Our Gaming Community</h2>
+      <p>Get game updates, discover new releases, and connect with fellow gamers.</p>
+      <button class="btn" onclick="showNotice('Thanks for your interest! Community sign-up needs a backend to save accounts.')">Sign Up Now &nbsp; →</button>
+      <div class="perks"><div class="perk">🔔<br><br>Game Updates</div><div class="perk">🏆<br><br>Tournaments</div><div class="perk">👥<br><br>Community</div></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <a class="logo" href="#">🎮 <span>Harshit Dhiman</span> Pro Coder</a>
+  <nav><a href="#home">Home</a><a href="#games">Games</a><a href="#categories">Categories</a><a href="#community">Community</a></nav>
+  <span>© 2026 Harshit Dhiman Pro Coder. All rights reserved.</span>
+</footer>
+
+<script>
+const searchInput = document.getElementById('search');
+const cards = [...document.querySelectorAll('.game-card')];
+const categoryButtons = [...document.querySelectorAll('.category')];
+let selectedCategory = 'All';
+
+function filterGames(){
+  const query = searchInput.value.trim().toLowerCase();
+  let visible = 0;
+  cards.forEach(card => {
+    const name = card.dataset.name.toLowerCase();
+    const tags = card.dataset.tags.toLowerCase();
+    const matchesSearch = name.includes(query) || tags.includes(query);
+    const matchesCategory = selectedCategory === 'All' || tags.includes(selectedCategory.toLowerCase());
+    const show = matchesSearch && matchesCategory;
+    card.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+  document.getElementById('empty').style.display = visible ? 'none' : 'block';
+}
+searchInput.addEventListener('input', filterGames);
+categoryButtons.forEach(button => button.addEventListener('click', () => {
+  selectedCategory = button.dataset.category;
+  categoryButtons.forEach(b => b.classList.toggle('active', b === button));
+  filterGames();
+}));
+function resetFilters(){
+  selectedCategory = 'All';
+  searchInput.value = '';
+  categoryButtons.forEach(b => b.classList.toggle('active', b.dataset.category === 'All'));
+  filterGames();
+}
+function playGame(name){
+  showNotice(name + ' is listed in this demo. To launch a real game, connect its official game page or install link.');
+}
+function showNotice(message){ alert(message); }
+</script>
+</body>
+</html>

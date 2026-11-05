@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Simple, practical advice to help you secure your home Wi-Fi network.">
+  <title>Home Wi-Fi Guide</title>
+  <style>
+    :root {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #172033;
+      background: #f7f9fc;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      scroll-behavior: smooth;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    a { color: inherit; }
+
+    .topbar {
+      display: flex;
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      min-height: 76px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      color: #14213d;
+      font-size: 1.1rem;
+      font-weight: 750;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 36px;
+      height: 36px;
+      place-items: center;
+      border-radius: 11px;
+      background: #e5efff;
+      color: #245bd6;
+      font-size: 1.2rem;
+    }
+
+    nav { display: flex; gap: 28px; align-items: center; }
+    nav a { color: #58657a; font-size: .94rem; text-decoration: none; }
+    nav a:hover { color: #245bd6; }
+
+    .button {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      border: 0;
+      border-radius: 10px;
+      background: #245bd6;
+      color: #fff;
+      font: inherit;
+      font-weight: 650;
+      text-decoration: none;
+      transition: background .15s ease, transform .15s ease;
+    }
+
+    .button:hover { background: #1949b3; transform: translateY(-1px); }
+    .button:focus-visible, a:focus-visible { outline: 3px solid #9bbcff; outline-offset: 3px; }
+
+    .hero {
+      padding: 86px 20px 92px;
+      background:
+        radial-gradient(ellipse at 82% 12%, rgb(119 165 255 / 22%), transparent 33%),
+        linear-gradient(135deg, #eef4ff, #f7f9fc 68%);
+    }
+
+    .hero-content { width: min(1120px, 100%); margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 16px;
+      color: #245bd6;
+      font-size: .78rem;
+      font-weight: 750;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 690px;
+      margin: 0;
+      color: #14213d;
+      font-size: clamp(2.6rem, 6vw, 4.6rem);
+      letter-spacing: -.055em;
+      line-height: 1.05;
+    }
+
+    .hero-copy {
+      max-width: 570px;
+      margin: 22px 0 30px;
+      color: #58657a;
+      font-size: 1.12rem;
+      line-height: 1.7;
+    }
+
+    .hero-note { margin: 14px 0 0; color: #6e7a8d; font-size: .88rem; }
+
+    section { padding: 76px 20px; }
+    .section-content { width: min(1120px, 100%); margin: 0 auto; }
+    .section-heading { max-width: 620px; margin-bottom: 34px; }
+    h2 { margin: 0 0 12px; color: #14213d; font-size: clamp(1.8rem, 4vw, 2.5rem); letter-spacing: -.035em; }
+    .section-heading p { margin: 0; color: #647187; line-height: 1.7; }
+
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card {
+      padding: 24px;
+      border: 1px solid #e4e9f1;
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .card-icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      margin-bottom: 19px;
+      place-items: center;
+      border-radius: 12px;
+      background: #edf3ff;
+      color: #245bd6;
+      font-size: 1.2rem;
+    }
+
+    h3 { margin: 0 0 9px; color: #172033; font-size: 1.08rem; }
+    .card p { margin: 0; color: #647187; font-size: .94rem; line-height: 1.65; }
+
+    .check-section { background: #14213d; color: #fff; }
+    .check-section h2 { color: #fff; }
+    .check-section .section-heading p { color: #c0cbdd; }
+    .check-section .button { background: #fff; color: #1949b3; }
+    .check-section .button:hover { background: #eaf1ff; }
+
+    footer {
+      display: flex;
+      width: min(1120px, calc(100% - 40px));
+      min-height: 72px;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #748096;
+      font-size: .86rem;
+    }
+
+    footer a { color: #245bd6; text-decoration: none; }
+
+    @media (max-width: 700px) {
+      .topbar { min-height: 68px; }
+      nav { gap: 14px; }
+      nav a:not(.button) { display: none; }
+      nav .button { min-height: 40px; padding: 0 13px; font-size: .88rem; }
+      .hero { padding: 66px 20px 72px; }
+      section { padding: 60px 20px; }
+      .cards { grid-template-columns: 1fr; }
+      footer { align-items: flex-start; flex-direction: column; justify-content: center; padding: 16px 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Home Wi-Fi Guide home">
+      <span class="brand-mark" aria-hidden="true">⌁</span>
+      <span>Home Wi-Fi Guide</span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#tips">Security tips</a>
+      <a class="button" href="wifi.html">Check a password</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <p class="eyebrow">A safer, simpler home network</p>
+        <h1>Make your home Wi-Fi a little safer.</h1>
+        <p class="hero-copy">Straightforward steps to help protect your router, your devices, and the people using your network.</p>
+        <a class="button" href="#tips">Explore the basics <span aria-hidden="true">&nbsp;→</span></a>
+        <p class="hero-note">For your own home network. No technical expertise needed.</p>
+      </div>
+    </section>
+
+    <section id="tips">
+      <div class="section-content">
+        <div class="section-heading">
+          <p class="eyebrow">Start with these basics</p>
+          <h2>Three small steps make a big difference.</h2>
+          <p>Use your router’s official app or admin guide to review these settings. Menu names vary by router.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">01</div>
+            <h3>Choose strong protection</h3>
+            <p>Use WPA3-Personal when available, or WPA2-AES. Avoid outdated options such as WEP and WPA.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">02</div>
+            <h3>Set unique passwords</h3>
+            <p>Use a long, unique Wi-Fi passphrase and change the router’s administrator password from its default.</p>
+          </article>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">03</div>
+            <h3>Keep the router updated</h3>
+            <p>Install firmware updates from the manufacturer, and turn off WPS if you do not use it.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="check-section">
+      <div class="section-content">
+        <div class="section-heading">
+          <p class="eyebrow">Quick check</p>
+          <h2>Review a password you’re considering.</h2>
+          <p>Use the local checker for basic strength guidance. It runs in your browser and does not send or save the entered password.</p>
+        </div>
+        <a class="button" href="wifi.html">Open the password checker <span aria-hidden="true">&nbsp;→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Home Wi-Fi Guide · Practical advice for your own network</span>
+    <a href="#tips">Back to security tips ↑</a>
+  </footer>
+  <a href="wifi.html">
+</body>
+</html>
