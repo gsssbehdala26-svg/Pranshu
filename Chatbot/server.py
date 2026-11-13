@@ -12,7 +12,8 @@ ROOT = Path(__file__).resolve().parent
 MAX_BODY_BYTES = 81_920
 MAX_MESSAGE_LENGTH = 4_000
 MAX_CONVERSATION_LENGTH = 20_000
-DEFAULT_MODEL = "gpt-4o-mini"
+OLLAMA_URL = "http://127.0.0.1:11434"
+DEFAULT_MODEL = "llama3.2"
 
 
 class RequestError(Exception):
@@ -36,15 +37,45 @@ def load_local_environment():
 
 
 def ai_config():
-    api_key = os.environ.get("AQ.Ab8RN6JwyHNXGzgyHii_YY2MLWp8pBmBzjn0MGM2Ebf0o9esww", "").strip()
-    model = os.environ.get("gemini-4-argon", DEFAULT_MODEL).strip()
-    configured = bool(api_key) and not api_key.lower().startswith("your_")
-    return api_key, model, configured
+    model = os.environ.get("OLLAMA_MODEL", DEFAULT_MODEL).strip()
+    configured = bool(model) and len(model) <= 100 and not any(ord(char) < 32 for char in model)
+    return model, configured
 
 
-def request_ai(messages, api_key, model):
+def ollama_status():
+    model, configured = ai_config()
+    if not configured:
+        return False, "OLLAMA_MODEL is invalid. Check the model name in .env."
+
+    request = Request(f"{OLLAMA_URL}/api/tags")
+    try:
+        with urlopen(request, timeout=3) as response:
+            result = json.loads(response.read(1_048_577).decode("utf-8"))
+    except HTTPError:
+        return False, "Could not check Ollama. Make sure it is running locally."
+    except (URLError, TimeoutError):
+        return False, "Ollama is not running. Start Ollama and try again."
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        return False, "Ollama returned an invalid response."
+
+    models = result.get("models") if isinstance(result, dict) else None
+    if not isinstance(models, list):
+        return False, "Ollama returned an incomplete model list."
+    model_names = {
+        item.get("name")
+        for item in models
+        if isinstance(item, dict) and isinstance(item.get("name"), str)
+    }
+    model_available = model in model_names or (":" not in model and f"{model}:latest" in model_names)
+    if not model_available:
+        return False, f"Model '{model}' is not installed. Run: ollama pull {model}"
+    return True, "Ollama is ready."
+
+
+def request_ai(messages, model):
     payload = {
         "model": model,
+        "stream": False,
         "messages": [
             {
                 "role": "system",
@@ -59,38 +90,31 @@ def request_ai(messages, api_key, model):
         ],
     }
     request = Request(
-        "https://api.openai.com/v1/chat/completions",
+        f"{OLLAMA_URL}/api/chat",
         data=json.dumps(payload).encode("utf-8"),
         method="POST",
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-        },
+        headers={"Content-Type": "application/json"},
     )
     try:
-        with urlopen(request, timeout=45) as response:
+        with urlopen(request, timeout=120) as response:
             result = json.loads(response.read(1_048_577).decode("utf-8"))
     except HTTPError as error:
-        if error.code in (401, 403):
-            raise RequestError(503, "The AI provider rejected this API key or its permissions. Check your API key and account access.") from error
         if error.code == 404:
-            raise RequestError(503, "The selected AI model was not found or is unavailable to this account. Check OPENAI_MODEL in .env.") from error
-        if error.code == 429:
-            raise RequestError(503, "The AI service is busy or its usage limit was reached. Please try again later.") from error
+            raise RequestError(503, f"Model '{model}' is not installed. Run: ollama pull {model}") from error
         if error.code >= 500:
-            raise RequestError(502, "The AI service is temporarily unavailable. Please try again shortly.") from error
-        raise RequestError(502, "The AI service could not process this request.") from error
+            raise RequestError(502, "Ollama is temporarily unavailable. Please try again shortly.") from error
+        raise RequestError(502, "Ollama could not process this request.") from error
     except (URLError, TimeoutError) as error:
-        raise RequestError(502, "Could not reach the AI service. Check the server connection and try again.") from error
+        raise RequestError(502, "Could not reach Ollama at http://localhost:11434. Start Ollama and try again.") from error
     except (UnicodeDecodeError, json.JSONDecodeError) as error:
-        raise RequestError(502, "The AI service returned an invalid response.") from error
+        raise RequestError(502, "Ollama returned an invalid response.") from error
 
     try:
-        reply = result["choices"][0]["message"]["content"]
+        reply = result["message"]["content"]
     except (KeyError, IndexError, TypeError) as error:
-        raise RequestError(502, "The AI service returned an incomplete response.") from error
+        raise RequestError(502, "Ollama returned an incomplete response.") from error
     if not isinstance(reply, str) or not reply.strip():
-        raise RequestError(502, "The AI service returned an empty response. Please try again.")
+        raise RequestError(502, "Ollama returned an empty response. Please try again.")
     return reply.strip()
 
 
@@ -120,8 +144,7 @@ class RequestHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         pathname = urlparse(self.path).path
         if pathname == "/api/chat-status":
-            _, _, configured = ai_config()
-            message = "AI assistant is ready." if configured else "Add OPENAI_API_KEY to .env and restart the server."
+            configured, message = ollama_status()
             self.send_json(200, {"configured": configured, "message": message})
             return
         if pathname not in ("/", "/chatbot.html"):
@@ -149,11 +172,9 @@ class RequestHandler(BaseHTTPRequestHandler):
             self.send_json(error.status, {"error": str(error)})
 
     def chat(self):
-        api_key, model, configured = ai_config()
+        model, configured = ai_config()
         if not configured:
-            raise RequestError(503, "AI is not configured. Add OPENAI_API_KEY to .env and restart the server.")
-        if not model or len(model) > 100 or any(ord(char) < 32 for char in model):
-            raise RequestError(503, "OPENAI_MODEL is invalid. Check the model name in .env.")
+            raise RequestError(503, "OLLAMA_MODEL is invalid. Check the model name in .env.")
 
         body = self.read_json()
         messages = body.get("messages") if isinstance(body, dict) else None
@@ -175,7 +196,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         if conversation[-1]["role"] != "user":
             raise RequestError(400, "The latest chat message must be from the user.")
 
-        reply = request_ai(conversation, api_key, model)
+        reply = request_ai(conversation, model)
         self.send_json(200, {"reply": reply})
 
     def log_message(self, format_string, *args):
